@@ -1,0 +1,6 @@
+X	Y	XOR Garder la tab après Output
+Input	Input	Output	
+0	0	0
+0	1	1
+1	0	1
+1	1	0
