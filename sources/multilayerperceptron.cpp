@@ -26,7 +26,7 @@ void MultiLayerPerceptron::createNetwork()
     for(int i=0; i < m_nbrHiddenNeurons; ++i)
     {
         m_hiddenNeurons.emplace_back(Neuron(m_nbrInputs, m_aggregation_fct, m_activate_fct));
-        m_hiddenNeurons.at(i).display();
+        //m_hiddenNeurons.at(i).display();
     }
 
     std::cout << "\n----- Outputs Neurons -----" << std::endl;
@@ -34,7 +34,7 @@ void MultiLayerPerceptron::createNetwork()
     for(int i=0; i < m_nbrOutputNeurons; ++i)
     {
         m_outputNeurons.emplace_back(Neuron(m_nbrHiddenNeurons, m_aggregation_fct, m_activate_fct));
-        m_outputNeurons.at(i).display();
+        //m_outputNeurons.at(i).display();
     }
 }
 
@@ -57,6 +57,7 @@ void MultiLayerPerceptron::process(Data data)
     {
         neuron.setInput(data);
         outputs_hiddens_neurons.emplace_back(neuron.getOutput());
+
         //neuron.display();
     }
 
@@ -64,6 +65,7 @@ void MultiLayerPerceptron::process(Data data)
     {
         neuron.setInput(outputs_hiddens_neurons);
         m_outputsNetworks.emplace_back(neuron.getOutput());
+
         //neuron.display();
     }
 
@@ -79,9 +81,17 @@ void MultiLayerPerceptron::backpropagation(Data data, const double learningRate)
         double output_value = m_outputNeurons.at(i).getOutput();
         double output_expected = data.outputs.at(i);
 
-        //std::cout << output_value << "\t" << output_expected << "\t" << output_value * (1 - output_value) * (output_expected - output_value) << std::endl;
 
-        delta_output.push_back(output_value * (1 - output_value) * (output_expected - output_value));
+        //std::cout << output_value << "\t" << output_expected << "\t" << output_value * (1 - output_value) * (output_expected - output_value) << std::endl;
+        delta_output.push_back(-1 * output_value * (1 - output_value) * (output_expected - output_value));
+
+//        // IA_Vulgarisee - Gradient
+//        for(size_t j=0; j < m_nbrHiddenNeurons; ++j)
+//        {
+//            double gradient = (-1) * (output_expected - output_value) * output_value * (1 - output_value) * m_outputNeurons.at(i).getInput(j);
+//            double delta_gradient = gradient * learningRate;
+//            delta_output.push_back(delta_gradient);
+//        }
     }
 
 
@@ -122,7 +132,7 @@ void MultiLayerPerceptron::backpropagation(Data data, const double learningRate)
     {
         for(int j=0; j < m_nbrInputs; ++j)
         {
-            value = m_hiddenNeurons.at(i).getWeight(j) / learningRate * delta_hidden.at(i) * data.values.at(j);
+            value = m_hiddenNeurons.at(i).getWeight(j) + learningRate * delta_hidden.at(i) * data.values.at(j);
             m_hiddenNeurons.at(i).setWeight(j, value);
         }
 

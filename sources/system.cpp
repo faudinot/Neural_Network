@@ -39,6 +39,8 @@ void System::launch()
         old_generalization_error = total_generalization_error;
         total_generalization_error = 0;
 
+        //std::cout << m_dataset.getLearningSetSize() << std::endl;
+
         // Evaluation & learning
         for(const auto data : m_dataset.getLearningSet())
         {
@@ -82,8 +84,8 @@ void System::launch()
         }
 
         std::cout << "Iteration : " << nbr_ite << std::endl;
-        std::cout << "\tTotal Error : " << total_error << "\tGeneralization error : " << total_generalization_error << std::endl;
-        std::cout << "\tLearning Rate : " << m_learning_rate << "\tAverage : " << sqrt(total_error / m_dataset.getLearningSetSize()) << std::endl;
+        std::cout << "\tTotal Error : " << total_error << "\tTotal Generalization Error : " << total_generalization_error << std::endl;
+        std::cout << "\tLearning Rate : " << m_learning_rate << "\tAverage (MSE) : " << sqrt(total_error / m_dataset.getLearningSetSize()) << std::endl;
 
         ++nbr_ite;
     }

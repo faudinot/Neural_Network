@@ -88,6 +88,11 @@ void Neuron::setInput(std::vector<double> inputs)
     }
 }
 
+double Neuron::getInput(const int index)
+{
+    return m_inputs.at(index).value;
+}
+
 double Neuron::getWeight(const int index)
 {    
     return m_inputs.at(index).weight;

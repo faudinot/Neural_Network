@@ -26,6 +26,7 @@ public:
 
     void setInput(Data data);
     void setInput(std::vector<double> inputs);
+    double getInput(const int index);
 
     double getWeight(const int index);
     void setWeight(const int index, const double value);

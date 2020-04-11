@@ -12,6 +12,7 @@ public:
     int operator()() {return dist(engine);}
 
 private:
+    // Le randomGeneratorInt n'est utilisé que pour faire les différents dataset
     //std::default_random_engine engine;
     std::random_device engine;
     std::uniform_int_distribution<> dist;

@@ -19,7 +19,9 @@ DataSet::DataSet(std::vector<Data> file_content, const double ratio_learning_set
     size_t size_learning_set = static_cast<size_t>(ceil(file_content.size() * ratio_learning_set));
     size_t size_generalization_set = static_cast<size_t>(ceil(file_content.size() * (1 - ratio_learning_set)));
 
-    while(m_generalization_set.size() < size_generalization_set)
+    std::cout << "Total Size " << m_file_content.size() << "\tLearning Size : " << size_learning_set << "\tGeneralization Size : " << size_generalization_set << std::endl;
+
+    while(m_generalization_set.size() <= size_generalization_set)
     {
         RandomGeneratorInt generator(0, file_content.size());
 
@@ -27,7 +29,6 @@ DataSet::DataSet(std::vector<Data> file_content, const double ratio_learning_set
 
         m_generalization_set.insert(index);
     }
-
 
     for(size_t i=0 ; i < m_file_content.size(); ++i)
     {
@@ -37,9 +38,33 @@ DataSet::DataSet(std::vector<Data> file_content, const double ratio_learning_set
         }
     }
 
+    for(const auto& val : m_generalization_set)
+    {
+        if(m_learning_set.find(val) != m_learning_set.end())
+        {
+            std::cout << "Error : duplicate : " << val << std::endl;
+        }
+    }
+
     if(file_content.size() != m_learning_set.size() + m_generalization_set.size())
     {
         std::cout << "Problem with data set" << std::endl;
+
+        std::cout << "File content : " << file_content.size() << ",\tLearning Size : " << m_learning_set.size() << ",\tGeneralization Size : " << m_generalization_set.size() << std::endl;
+
+        std::cout << "Learning" << std::endl;
+        for(const auto& val : m_learning_set)
+        {
+            std::cout << val << "\t";
+        }
+
+        std::cout << "\nGeneralization" << std::endl;
+        for(const auto& val : m_generalization_set)
+        {
+            std::cout << val << "\t";
+        }
+        std::cout << "\n";
+
     }
 }
 

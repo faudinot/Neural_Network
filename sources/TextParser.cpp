@@ -38,6 +38,10 @@ vector<Data> TextParser::get_all_data()
             parse_line(m_line);
         }
     }
+    else
+    {
+        std::cout << "File not opened !" << std::endl;
+    }
 
     return m_data;
 }
@@ -48,7 +52,6 @@ vector<Data> TextParser::get_all_data()
 void TextParser::open_file()
 {
     m_file.open(m_filename, ifstream::in);
-
 }
 
 void TextParser::parse_line(string& line)
